@@ -1,7 +1,7 @@
 import http from 'node:http'
-import app from './src/app.js'
+import app from './backend/src/app.js'
 import 'dotenv/config'
-import connectDB from './src/common/config/db.js'
+import connectDB from './backend/src/common/config/db.js'
 
 const port = process.env.PORT || 8000;
 const url = process.env.URL || '127.0.0.1'
