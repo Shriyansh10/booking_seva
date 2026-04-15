@@ -34,9 +34,14 @@ const login = async ({ email, password }) => {
   });
   if (!userObj) throw ApiError.expectationFailed("RefreshToken not updated");
 
-  return {userObj, accessToken, refreshToken};
+  return {user: userObj, accessToken, refreshToken};
 };
 
+const profile = async (user) => {
+  const userObj = await models.getUserById(pool, user)
+  if(!userObj) throw ApiError.notfound('User not found');
+  return userObj;
+}
 
 
-export { register, login };
+export { register, login, profile};

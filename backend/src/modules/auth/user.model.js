@@ -63,7 +63,7 @@ export const updateRefreshToken = async (pool, {email, hashedRefreshToken, refre
 };
 
 // Get user by id
-export const getUserById = async (pool, id) => {
+export const getUserById = async (pool, {id}) => {
   const result = await pool.query(
     `SELECT id, name, email, created_at FROM users WHERE id = $1`,
     [id]
@@ -74,7 +74,7 @@ export const getUserById = async (pool, id) => {
 
 
 // Update user
-export const updateUserName = async (pool, id, name) => {
+export const updateUserName = async (pool, {id, name}) => {
   const result = await pool.query(
     `UPDATE users SET name = $1 WHERE id = $2 RETURNING *`,
     [name, id]
@@ -85,7 +85,7 @@ export const updateUserName = async (pool, id, name) => {
 
 
 // Delete user
-export const deleteUser = async (pool, id) => {
+export const deleteUser = async (pool, {id}) => {
   await pool.query(
     `DELETE FROM users WHERE id = $1`,
     [id]

@@ -1,15 +1,26 @@
-import ApiResponse from '../../common/utils/api-response.js';
-import * as services from './user.service.js'
+import ApiResponse from "../../common/utils/api-response.js";
+import * as authServices from "./user.service.js";
 
 const register = async (req, res) => {
-    const user = await services.register(req.body);
-    ApiResponse.created(res, 'User Created Successfully', user)
-}
+  const user = await authServices.register(req.body);
+  ApiResponse.created(res, "User Created Successfully", user);
+};
 
 const login = async (req, res) => {
-    const {user, accessToken, refreshToken} = await services.login(req.body);
-    res.cookies('refreshToken', refreshToken)
-    ApiResponse.created(res, 'User Login Successfully', {user, accessToken})
-}
+  const { user, accessToken, refreshToken } = await authServices.login(
+    req.body,
+  );
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: true,
+    maxAge: 1 * 24 * 60 * 60 * 1000,
+  });
+  ApiResponse.created(res, "User Login Successfully", { user, accessToken });
+};
 
-export {register, login}
+const profile = async (req, res) => {
+  const user = await authServices.profile(req.user);
+  ApiResponse.ok(res, 'Profile Details', user)
+};
+
+export { register, login, profile };
