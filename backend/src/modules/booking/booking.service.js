@@ -7,8 +7,9 @@ const getAllSeats = async () => {
     return seats;
 }
 
+
+
 const bookSeat = async ({userId, seatId}) => {
-    console.log('service' , userId, seatId);
     const result = await models.bookSeat(pool, {userId, seatId})
 
     if(!result) throw ApiError.expectationFailed('Something went wrong')

@@ -29,16 +29,15 @@ const bookSeat = async (pool, { userId, seatId }) => {
 
   try {
     await conn.query("BEGIN");
-    const seat = conn.query(
+    const seat = await conn.query(
       `SELECT *
       FROM seats
       WHERE seats.id = $1 FOR UPDATE`,
       [seatId],
     );
-    console.log('worked till here');
     if (seat.rowCount === 0) throw ApiError.notfound("Seat not found");
 
-    const existing = conn.query(
+    const existing = await conn.query(
       `SELECT * FROM bookings
       WHERE seat_id = $1`,
       [seatId],
